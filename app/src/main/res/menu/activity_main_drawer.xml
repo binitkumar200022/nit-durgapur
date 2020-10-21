@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:title="@string/menu_home" />
+        <item
+            android:id="@+id/nav_academics"
+            android:title="@string/menu_academics" />
+        <item
+            android:id="@+id/nav_administration"
+            android:title="@string/menu_administration" />
+        <item
+            android:id="@+id/nav_admission_2020"
+            android:title="@string/menu_admission_2020" />
+        <item
+            android:id="@+id/nav_research_and_collaboration"
+            android:title="@string/menu_research_and_collaboration" />
+        <item
+            android:id="@+id/nav_facilities"
+            android:title="@string/menu_facilities" />
+        <item
+            android:id="@+id/nav_information"
+            android:title="@string/menu_information" />
+        <item
+            android:id="@+id/nav_students_and_alumni"
+            android:title="@string/menu_students_and_alumni" />
+        <item
+            android:id="@+id/nav_institutional_activities"
+            android:title="@string/menu_institutional_activities" />
+    </group>
+</menu>

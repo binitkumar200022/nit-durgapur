@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "311228388729",
+    "firebase_url": "https://nit-durgapur-2204.firebaseio.com",
+    "project_id": "nit-durgapur-2204",
+    "storage_bucket": "nit-durgapur-2204.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:311228388729:android:f12f3ca31ff37d58224ba8",
+        "android_client_info": {
+          "package_name": "com.example.nitdurgapur"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "311228388729-vdi89hh0uocn3f2bn904r61i7hd4qlm0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQQAhBYuG37W6CB0zWANy62ytROpuRqQ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "311228388729-vdi89hh0uocn3f2bn904r61i7hd4qlm0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

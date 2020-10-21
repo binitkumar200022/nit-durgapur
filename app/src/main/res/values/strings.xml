@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">NIT Durgapur</string>
+
+    <string name="sharedPreferences">com.in.ac.nitdgp.SharedPreferences</string>
+    <string name="shared_skip">SKIP</string>
+
+    <string name="login_content_description_bg">Login Background</string>
+    <string name="login_content_description_logo">NIT Durgapur Logo</string>
+    <string name="login_text_college_name">NATIONAL INSTITUTE OF TECHNOLOGY DURGAPUR</string>
+    <string name="login_text_forget_password">Forgot Password?</string>
+    <string name="login_hint_email">Email</string>
+    <string name="login_hint_password">Password</string>
+    <string name="login_text_sign_in">SIGN IN</string>
+    <string name="login_text_skip">SKIP</string>
+    <string name="login_text_info">SIGN IN USING YOUR COLLEGE EMAIL ID</string>
+
+    <string name="title_activity_home_page">HomePage</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="marquee_text">Director\'s Message for the students</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_academics">Academics</string>
+    <string name="menu_administration">Administration</string>
+    <string name="menu_admission_2020">Admission 2020</string>
+    <string name="menu_research_and_collaboration">Research &amp; Collaboration</string>
+    <string name="menu_facilities">Facilities</string>
+    <string name="menu_information">Information</string>
+    <string name="menu_students_and_alumni">Students &amp; Alumni</string>
+    <string name="menu_institutional_activities">Institutional Activities</string>
+
+    <string name="title_activity_pdf_render">PdfRender</string>
+    <string name="content_description_progress">Progress Bar</string>
+
+    <string name="text_forget_password">Contact NIT Durgapur\'s Server Administrator</string>
+</resources>
