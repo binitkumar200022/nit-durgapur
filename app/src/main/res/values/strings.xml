@@ -34,7 +34,6 @@
     <string name="menu_institutional_activities">Institutional Activities</string>
 
     <string name="title_activity_pdf_render">PdfRender</string>
-    <string name="content_description_progress">Progress Bar</string>
 
     <string name="text_forget_password">Contact NIT Durgapur\'s Server Administrator</string>
 </resources>
