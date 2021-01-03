@@ -147,7 +147,6 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(getActivity(), finalStr, Toast.LENGTH_SHORT).show();
                 }
             });
-
             sliderLayout.addSliderView(sliderView);
         }
     }
