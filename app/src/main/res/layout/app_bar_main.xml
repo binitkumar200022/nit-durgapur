@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,6 +8,7 @@
     tools:context=".HomePage">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -18,20 +20,13 @@
             android:background="#001333"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/homepage_notification_bell"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="right">
-
-                <ImageView
-                    android:id="@+id/homepage_notification_bell"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="9dp"
-                    android:paddingRight="7dp"
-                    android:src="@drawable/notification_bell"/>
-
-            </LinearLayout>
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/notification_bell"
+                android:src="@drawable/login_logo" />
 
         </androidx.appcompat.widget.Toolbar>
 

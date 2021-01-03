@@ -15,6 +15,7 @@
     <string name="login_text_info">SIGN IN USING YOUR COLLEGE EMAIL ID</string>
 
     <string name="title_activity_home_page">HomePage</string>
+    <string name="notification_bell">Notification Bell</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
@@ -34,6 +35,21 @@
     <string name="menu_institutional_activities">Institutional Activities</string>
 
     <string name="title_activity_pdf_render">PdfRender</string>
+    <string name="title_activity_profile">Profile</string>
 
     <string name="text_forget_password">Contact NIT Durgapur\'s Server Administrator</string>
+
+    <string name="content_description_progress">Progress Bar</string>
+    <string name="open_nav_drawer">Open Navigation Drawer</string>
+    <string name="close_nav_drawer">Close Navigation Drawer</string>
+    <string name="institute_email">Institute Email</string>
+    <string name="roll_number">Roll Number</string>
+    <string name="registration_number">Registration Number</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="department">Department</string>
+    <string name="course">Course</string>
+    <string name="year">Year</string>
+    <string name="description_profile_image">Profile Image</string>
+    <string name="logout_button">Logout Button</string>
+
 </resources>

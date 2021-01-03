@@ -1,21 +1,11 @@
 package com.example.nitdurgapur;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Menu;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.view.View;
 import android.widget.TextView;
 
-import com.example.nitdurgapur.ui.HomeFragment;
-import com.example.nitdurgapur.ui.ProfileFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,19 +16,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class HomePage extends AppCompatActivity {
+import java.util.Objects;
 
+public class HomePage extends AppCompatActivity  {
+
+    private DrawerLayout drawer;
     private AppBarConfiguration mAppBarConfiguration;
     private FirebaseAuth mAuth;
     private TextView mNotSignIn;
@@ -47,9 +39,13 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        drawer = findViewById(R.id.drawer_layout);
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -57,7 +53,8 @@ public class HomePage extends AppCompatActivity {
                 R.id.nav_home, R.id.nav_academics, R.id.nav_administration, R.id.nav_admission_2020, R.id.nav_research_and_collaboration, R.id.nav_facilities, R.id.nav_information, R.id.nav_students_and_alumni, R.id.nav_institutional_activities)
                 .setDrawerLayout(drawer)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavController navController = navHostFragment.getNavController();
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
@@ -65,19 +62,18 @@ public class HomePage extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         View header = navigationView.getHeaderView(0);
         mNotSignIn = (TextView) header.findViewById(R.id.not_sign_in);
-        if(currentUser == null) {
+        if (currentUser == null) {
             mNotSignIn.setText(String.valueOf("Not Logged In, Sign In?"));
             mNotSignIn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(HomePage.this, Login.class);
-                    intent.putExtra("NotSignIn",true);
+                    intent.putExtra("NotSignIn", true);
                     startActivity(intent);
                     finish();
                 }
             });
-        }
-        else {
+        } else {
             String user_id = mAuth.getCurrentUser().getUid();
             DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("users");
             current_user_db.addValueEventListener(new ValueEventListener() {
@@ -96,9 +92,9 @@ public class HomePage extends AppCompatActivity {
             mNotSignIn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    drawer.closeDrawers();
-                    FragmentManager fm = (HomePage.this).getSupportFragmentManager();
-                    fm.beginTransaction().add(R.id.nav_host_fragment, new ProfileFragment()).commit();
+                    drawer.closeDrawer(GravityCompat.START);
+                    Intent intent = new Intent(HomePage.this, ProfileActivity.class);
+                    startActivity(intent);
                 }
             });
         }
@@ -110,5 +106,20 @@ public class HomePage extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.notification_bell, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }

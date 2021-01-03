@@ -122,18 +122,20 @@ public class Login extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        //Check if user came from HomePage
-        Intent intent = getIntent();
-        if(!intent.getBooleanExtra("NotSignIn", false)) {
+        //Check if came from HomePage
+        if(!getIntent().getBooleanExtra("NotSignIn", false)) {
             //Check if previous skip
             SharedPreferences sharedPreferences = (Login.this).getPreferences(Context.MODE_PRIVATE);
             boolean valSkip = sharedPreferences.getBoolean(getString(R.string.shared_skip),false);
             if(valSkip) {
                 updateUI("GUEST");
+
             }
-            // Check if user is signed in (non-null) and update UI accordingly.
-            FirebaseUser currentUser = mAuth.getCurrentUser();
-            updateUI(currentUser);
+            else {
+                // Check if user is signed in (non-null) and update UI accordingly.
+                FirebaseUser currentUser = mAuth.getCurrentUser();
+                updateUI(currentUser);
+            }
         }
     }
 

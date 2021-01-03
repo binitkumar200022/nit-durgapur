@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.nitdurgapur.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.smarteist.autoimageslider.DefaultSliderView;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderLayout;
@@ -66,7 +67,7 @@ public class HomeFragment extends Fragment {
 
         sliderLayout = (SliderLayout) root.findViewById(R.id.fragment_home_carousel);
         sliderLayout.setIndicatorAnimation(IndicatorAnimations.FILL);
-        sliderLayout.setScrollTimeInSec(5);
+        sliderLayout.setScrollTimeInSec(3);
 
         setSliderViews();
 

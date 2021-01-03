@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#14162d</color>
-    <color name="colorPrimaryDark">#FFFFFF</color>
+    <color name="colorPrimaryDark">#0c0e1c</color>
     <color name="colorAccent">#FFFFFF</color>
     <color name="textInputLayout">#9affffff</color>
+    <color name="solidCircle">#AAFFFFFF</color>
+    <color name="circleBorder">#30FFFFFF</color>
+    <color name="regNo">#65DCE5</color>
+    <color name="rollNo">#49beff</color>
+    <color name="headings">#3797cf</color>
+    <color name="grey">#e5e5e5</color>
+    <color name="white">#FFFFFF</color>
 </resources>
