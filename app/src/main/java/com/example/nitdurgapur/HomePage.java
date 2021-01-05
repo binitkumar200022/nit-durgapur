@@ -1,10 +1,18 @@
 package com.example.nitdurgapur;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -14,26 +22,29 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.smarteist.autoimageslider.DefaultSliderView;
+import com.smarteist.autoimageslider.IndicatorAnimations;
+import com.smarteist.autoimageslider.SliderLayout;
+import com.smarteist.autoimageslider.SliderView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import java.util.Objects;
+import java.io.IOException;
 
 public class HomePage extends AppCompatActivity  {
 
+    NavigationView navigationView;
+    ActionBarDrawerToggle toggle;
+
     private DrawerLayout drawer;
-    private AppBarConfiguration mAppBarConfiguration;
     private FirebaseAuth mAuth;
     private TextView mNotSignIn;
+    private SliderLayout sliderLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,24 +55,38 @@ public class HomePage extends AppCompatActivity  {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         drawer = findViewById(R.id.drawer_layout);
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_academics, R.id.nav_administration, R.id.nav_admission_2020, R.id.nav_research_and_collaboration, R.id.nav_facilities, R.id.nav_information, R.id.nav_students_and_alumni, R.id.nav_institutional_activities)
-                .setDrawerLayout(drawer)
-                .build();
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-        NavController navController = navHostFragment.getNavController();
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer);
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorAccent));
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch(item.getItemId()) {
+                    case R.id.nav_home:
+                        closeDrawer(drawer);
+                        return true;
+                    case R.id.nav_nitdgpchat:
+                        startActivity(new Intent(HomePage.this, NitDgpChat.class));
+                        closeDrawer(drawer);
+                        return true;
+                    default:
+                        return true;
+                }
+            }
+        });
+
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
+
         View header = navigationView.getHeaderView(0);
         mNotSignIn = (TextView) header.findViewById(R.id.not_sign_in);
+
         if (currentUser == null) {
             mNotSignIn.setText(String.valueOf("Not Logged In, Sign In?"));
             mNotSignIn.setOnClickListener(new View.OnClickListener() {
@@ -99,27 +124,138 @@ public class HomePage extends AppCompatActivity  {
             });
         }
 
+        //Set up Marquee TextView
+        TextView mMarquee = (TextView) findViewById(R.id.activity_home_marquee);
+        mMarquee.setSelected(true);
+        mMarquee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://nitdgp.ac.in/AllPDF/d_msg/To_the_Students.mp4"; // your URL here
+                MediaPlayer mediaPlayer = new MediaPlayer();
+                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                try {
+                    mediaPlayer.setDataSource(url);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mediaPlayer.prepareAsync();
+                //You can show progress dialog here until it prepared to play
+                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        //Now dismiss progress dialog, Media player will start playing
+                        mp.start();
+                    }
+                });
+                mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                    @Override
+                    public boolean onError(MediaPlayer mp, int what, int extra) {
+                        // dismiss progress bar here. It will come here when MediaPlayer
+                        //  is not able to play file. You can show error message to user
+                        return false;
+                    }
+                });
+                mMarquee.setClickable(false);
+            }
+        });
+
+        sliderLayout = (SliderLayout) findViewById(R.id.activity_home_carousel);
+        sliderLayout.setIndicatorAnimation(IndicatorAnimations.FILL);
+        sliderLayout.setScrollTimeInSec(3);
+
+        setSliderViews();
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
+    private void setSliderViews() {
+        for (int i=0; i<=18; i++) {
+            DefaultSliderView sliderView = new DefaultSliderView(HomePage.this);
+            String str = "deafault";
+            switch (i) {
+                case 0 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/Covid_Awarness_-_Hoarding_-_English_-_With_PM2.jpg");
+                    str = "Covid Awarness - Hoarding";
+                    break;
+                case 1 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/Covid_Awarness_-_Hoarding_-_English_-_With_PM1_page-0002.jpg");
+                    str = "Covid Awarness - Hoarding";
+                    break;
+                case 2 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/BRICS_International_School.JPG");
+                    str = "BRICS International School";
+                    break;
+                case 3 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/74_independent_day.jpg");
+                    str = "74th Independence Day celebrated by the Institute";
+                    break;
+                case 4 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/ban2.png");
+                    str = "Engineering Tomorrow";
+                    break;
+                case 5 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/ban1.png");
+                    str = "Engineering Tomorrow";
+                    break;
+                case 6 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/Semi-automatic_ventilator.png");
+                    str = "Semi-Automatic Ventilator";
+                    break;
+                case 7 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2019/language_lab.jpg");
+                    str = "Inauguration of Language Laboratory at NIT Durgapur";
+                    break;
+                case 8 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2019/Alumni_homecoming.jpg");
+                    str = "Grand Alumni Homecoming 2018";
+                    break;
+                case 9 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2019/fingureprint.jpg");
+                    str = "Nanotechnology Enabled Smart Phone based Detection of Latent Finger Prints : Nature India";
+                    break;
+                case 10 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2018/IMG-20181205-WA0113.jpg");
+                    str = "MOU with Hohai University China";
+                    break;
+                case 11 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2019/DSC_4761-min.JPG");
+                    str = "15th Convocation 2019";
+                    break;
+                case 12 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2018/18_-mod.JPG");
+                    str = "Hindi Shikshan Yojna 2018";
+                    break;
+                case 13 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2018/guestHouse.jpg");
+                    str = "Guest House, NIT Durgapur";
+                    break;
+                case 14 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2018/BiotechBuilding-mod.jpg");
+                    str = "Biotechnology Department, NIT Durgapur";
+                    break;
+                case 15 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2018/ACADPIC2-mod.JPG");
+                    str = "New Academic Building, NIT Durgapur";
+                    break;
+                case 16 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/DSC_0182.JPG");
+                    str = "Ek Bharat Shreshtha Bharat";
+                    break;
+                case 17 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2019/MissionVisionPagePic.jpg");
+                    str = "Main Academic Building, NIT Durgapur";
+                    break;
+                case 18 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/rs.jpg");
+                    str = "STROKES NIT Durgapur";
+                    break;
+            }
 
-    @Override
-    public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+            sliderView.setImageScaleType(ImageView.ScaleType.CENTER_CROP);
+            sliderView.setDescription(str);
+            String finalStr = str;
+            sliderView.setOnSliderClickListener(new SliderView.OnSliderClickListener() {
+                @Override
+                public void onSliderClick(SliderView sliderView) {
+                    Toast.makeText(HomePage.this, finalStr, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            sliderLayout.addSliderView(sliderView);
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.notification_bell, menu);
-        return super.onCreateOptionsMenu(menu);
+    private static void openDrawer(DrawerLayout drawer) {
+        //Open drawer Layout
+        drawer.openDrawer(GravityCompat.START);
+    }
+
+    private static void closeDrawer(DrawerLayout drawer) {
+        //Close drawer Layout
+        //Check condition
+        if(drawer.isDrawerOpen(GravityCompat.START)) {
+            //When drawer is open
+            //Close drawer
+            drawer.closeDrawer(GravityCompat.START);
+        }
     }
 }

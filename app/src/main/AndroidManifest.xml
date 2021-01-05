@@ -13,7 +13,12 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ProfileActivity"
-            android:label="@string/title_activity_profile"
+            android:label="@string/menu_profile"
+            android:parentActivityName=".HomePage"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".NitDgpChat"
+            android:label="@string/menu_nitdgpchat"
             android:parentActivityName=".HomePage"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
@@ -22,7 +27,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".HomePage"
-            android:label="@string/title_activity_home_page"
+            android:label="@string/menu_home"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

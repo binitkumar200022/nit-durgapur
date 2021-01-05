@@ -112,9 +112,4 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.notification_bell,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 }

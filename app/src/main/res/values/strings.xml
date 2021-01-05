@@ -14,8 +14,6 @@
     <string name="login_text_skip">SKIP</string>
     <string name="login_text_info">SIGN IN USING YOUR COLLEGE EMAIL ID</string>
 
-    <string name="title_activity_home_page">HomePage</string>
-    <string name="notification_bell">Notification Bell</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
@@ -25,7 +23,7 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_profile">Profile</string>
-    <string name="menu_academics">Academics</string>
+    <string name="menu_nitdgpchat">NITDGP Chat</string>
     <string name="menu_administration">Administration</string>
     <string name="menu_admission_2020">Admission 2020</string>
     <string name="menu_research_and_collaboration">Research &amp; Collaboration</string>
@@ -35,7 +33,6 @@
     <string name="menu_institutional_activities">Institutional Activities</string>
 
     <string name="title_activity_pdf_render">PdfRender</string>
-    <string name="title_activity_profile">Profile</string>
 
     <string name="text_forget_password">Contact NIT Durgapur\'s Server Administrator</string>
 
@@ -51,5 +48,7 @@
     <string name="year">Year</string>
     <string name="description_profile_image">Profile Image</string>
     <string name="logout_button">Logout Button</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
