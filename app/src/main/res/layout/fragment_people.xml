@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".nitdgpchat.ChatsFragment">
+    tools:context=".nitdgpchat.PeopleFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chats_list"
+        android:id="@+id/people_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>

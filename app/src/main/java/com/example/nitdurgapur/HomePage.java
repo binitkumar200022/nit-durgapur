@@ -1,18 +1,21 @@
 package com.example.nitdurgapur;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,13 +30,6 @@ import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderLayout;
 import com.smarteist.autoimageslider.SliderView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import java.io.IOException;
 
 public class HomePage extends AppCompatActivity  {
@@ -42,7 +38,6 @@ public class HomePage extends AppCompatActivity  {
     ActionBarDrawerToggle toggle;
 
     private DrawerLayout drawer;
-    private FirebaseAuth mAuth;
     private TextView mNotSignIn;
     private SliderLayout sliderLayout;
 
@@ -81,14 +76,14 @@ public class HomePage extends AppCompatActivity  {
         });
 
 
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         View header = navigationView.getHeaderView(0);
         mNotSignIn = (TextView) header.findViewById(R.id.not_sign_in);
 
         if (currentUser == null) {
-            mNotSignIn.setText(String.valueOf("Not Logged In, Sign In?"));
+            mNotSignIn.setText("Not Logged In, Sign In?");
             mNotSignIn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

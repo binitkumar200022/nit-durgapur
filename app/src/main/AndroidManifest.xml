@@ -12,15 +12,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".nitdgpchat.ChatActivity"
+            android:label="Private Chat"
+            android:parentActivityName=".NitDgpChat"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".nitdgpchat.GroupChatActivity"
+            android:label="Group Chat"
+            android:parentActivityName=".NitDgpChat"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".ProfileActivity"
             android:label="@string/menu_profile"
             android:parentActivityName=".HomePage"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".NitDgpChat"
             android:label="@string/menu_nitdgpchat"
             android:parentActivityName=".HomePage"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".PdfRender"
             android:label="@string/title_activity_pdf_render"

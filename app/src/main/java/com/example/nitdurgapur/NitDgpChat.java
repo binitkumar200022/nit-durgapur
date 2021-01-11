@@ -1,19 +1,18 @@
 package com.example.nitdurgapur;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.nitdurgapur.R;
 import com.example.nitdurgapur.nitdgpchat.TabsAccessorAdapter;
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.Objects;
 
 public class NitDgpChat extends AppCompatActivity {
 
@@ -24,6 +23,21 @@ public class NitDgpChat extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_nitdgpchat);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_nitdgpchat);
+        setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        assert ab != null;
+        ab.setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(toolbar.getNavigationIcon()).setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+
+        myViewPager = (ViewPager) findViewById(R.id.main_tabs_pager);
+        myTabAccessorAdapter = new TabsAccessorAdapter(getSupportFragmentManager());
+        myViewPager.setAdapter(myTabAccessorAdapter);
+
+        myTabLayout = (TabLayout) findViewById(R.id.main_tabs);
+        myTabLayout.setupWithViewPager(myViewPager);
+
     }
 }

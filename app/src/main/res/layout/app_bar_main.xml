@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#001333"
+        android:background="@color/colorPrimary"
         app:popupTheme="@style/AppTheme.PopupOverlay">
 
     </androidx.appcompat.widget.Toolbar>
@@ -18,8 +18,10 @@
     <ImageView
         android:id="@+id/appBar_logo"
         android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/login_logo"/>
+        android:layout_width="?android:actionBarSize"
+        android:layout_height="?android:actionBarSize"
+        android:contentDescription="@string/login_content_description_logo"
+        android:padding="2dp"
+        android:src="@drawable/login_logo" />
 
 </RelativeLayout>

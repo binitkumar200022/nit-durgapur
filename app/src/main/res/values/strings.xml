@@ -50,5 +50,7 @@
     <string name="logout_button">Logout Button</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="receiver_message">Receiver Message here</string>
+    <string name="sender_message">Sender Message here</string>
 
 </resources>

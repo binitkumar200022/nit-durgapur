@@ -1,20 +1,18 @@
 package com.example.nitdurgapur;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -40,11 +38,13 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_profile);
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
+        assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
-        toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+        Objects.requireNonNull(toolbar.getNavigationIcon()).setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -59,6 +59,7 @@ public class ProfileActivity extends AppCompatActivity {
         course = (TextView) findViewById(R.id.profile_course);
         year = (TextView) findViewById(R.id.profile_year);
 
+        assert user != null;
         String user_id = user.getUid();
 
         DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("users");
@@ -68,7 +69,6 @@ public class ProfileActivity extends AppCompatActivity {
         current_user_db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                profileName.setText(dataSnapshot.child(user_id).child("Name").getValue(String.class));
                 regNo.setText(dataSnapshot.child(user_id).child("RegNo").getValue(String.class));
                 rollNo.setText(dataSnapshot.child(user_id).child("RollNo").getValue(String.class));
                 instituteEmail.setText(dataSnapshot.child(user_id).child("InstituteEmail").getValue(String.class));

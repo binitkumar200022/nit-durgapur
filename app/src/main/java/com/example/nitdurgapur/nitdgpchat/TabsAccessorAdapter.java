@@ -6,13 +6,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import org.jetbrains.annotations.NotNull;
+
 public class TabsAccessorAdapter extends FragmentPagerAdapter {
 
     public TabsAccessorAdapter(@NonNull FragmentManager fm) {
         super(fm);
     }
 
-    @NonNull
+    @NotNull
     @Override
     public Fragment getItem(int position) {
         switch (position) {
@@ -21,7 +23,7 @@ public class TabsAccessorAdapter extends FragmentPagerAdapter {
             case 1:
                 return new GroupsFragment();
             case 2:
-                return new ContactsFragment();
+                return new PeopleFragment();
             default:
                 return null;
         }
@@ -41,7 +43,7 @@ public class TabsAccessorAdapter extends FragmentPagerAdapter {
             case 1:
                 return "Groups";
             case 2:
-                return "Contacts";
+                return "People";
             default:
                 return null;
         }
