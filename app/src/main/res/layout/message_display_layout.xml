@@ -67,7 +67,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/message_user_last_message"
+                android:id="@+id/message_user_department"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -75,8 +75,7 @@
                 android:fontFamily="@font/calibri"
                 android:textAlignment="textStart"
                 android:textColor="@color/colorAccent"
-                android:textSize="16sp"
-                android:visibility="invisible" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 

@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.nitdurgapur.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -28,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 public class ChatsFragment extends Fragment {
 
@@ -43,7 +43,7 @@ public class ChatsFragment extends Fragment {
                              Bundle savedInstanceState) {
         chatsView = inflater.inflate(R.layout.fragment_chats, container, false);
 
-        chatsList = (RecyclerView) chatsView.findViewById(R.id.chats_list);
+        chatsList = chatsView.findViewById(R.id.chats_list);
         chatsList.setLayoutManager(new LinearLayoutManager(getContext()));
 
         auth = FirebaseAuth.getInstance();
@@ -71,17 +71,19 @@ public class ChatsFragment extends Fragment {
                 usersRef.child(userIDs).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String name = snapshot.child("Name").getValue().toString();
+                        final String name = snapshot.child("Name").getValue().toString();
+
+                        final String department = snapshot.child("Department").getValue().toString();
 
                         chatsViewHolder.userName.setText(name);
+
+                        chatsViewHolder.department.setText(department);
 
                         storageReference.child(userIDs + ".png").getDownloadUrl()
                                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
-                                        Glide.with(getActivity())
-                                                .load(uri)
-                                                .into(chatsViewHolder.profileImage);
+                                        Picasso.get().load(uri).into(chatsViewHolder.profileImage);
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -90,6 +92,18 @@ public class ChatsFragment extends Fragment {
                                         chatsViewHolder.profileImage.setImageResource(R.drawable.ic_user);
                                     }
                                 });
+
+                        if (snapshot.child("userState").hasChild("state")) {
+                            String state = snapshot.child("userState").child("state").getValue().toString();
+
+                            if (state.equals("online")) {
+                                chatsViewHolder.onlineIcon.setVisibility(View.VISIBLE);
+                            } else if (state.equals("offline")) {
+                                chatsViewHolder.onlineIcon.setVisibility(View.INVISIBLE);
+                            }
+                        } else {
+                            chatsViewHolder.onlineIcon.setVisibility(View.INVISIBLE);
+                        }
 
                         chatsViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -126,12 +140,16 @@ public class ChatsFragment extends Fragment {
 
         ImageView profileImage;
         TextView userName;
+        TextView department;
+        ImageView onlineIcon;
 
         public chatsViewHolder(@NonNull View itemView) {
             super(itemView);
 
             userName = itemView.findViewById(R.id.message_user_name);
             profileImage = itemView.findViewById(R.id.message_user_image);
+            department = itemView.findViewById(R.id.message_user_department);
+            onlineIcon = itemView.findViewById(R.id.message_user_online_status);
         }
     }
 }

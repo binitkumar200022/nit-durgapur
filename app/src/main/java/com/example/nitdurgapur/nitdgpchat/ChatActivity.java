@@ -19,7 +19,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.nitdurgapur.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -31,8 +30,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,13 +71,37 @@ public class ChatActivity extends AppCompatActivity {
         InitializeFields();
 
         userName.setText(messageReceiverName);
+
+        RootRef.child("users").child(messageReceiverID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.child("userState").hasChild("state")) {
+                    String date = snapshot.child("userState").child("date").getValue().toString();
+                    String state = snapshot.child("userState").child("state").getValue().toString();
+                    String time = snapshot.child("userState").child("time").getValue().toString();
+
+                    if (state.equals("online")) {
+                        userLastSeen.setText("online");
+                    } else if (state.equals("offline")) {
+                        String lastSeenMessage = "last seen on " + date + " at " + time;
+                        userLastSeen.setText(lastSeenMessage);
+                    }
+                } else {
+                    userLastSeen.setText(R.string.offline);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         storageReference.child(messageReceiverID + ".png").getDownloadUrl()
                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        Glide.with(ChatActivity.this)
-                                .load(uri)
-                                .into(userImage);
+                        Picasso.get().load(uri).into(userImage);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -105,14 +130,14 @@ public class ChatActivity extends AppCompatActivity {
 
         storageReference = FirebaseStorage.getInstance().getReference().child("profile_images");
 
-        userImage = (ImageView) findViewById(R.id.custom_chat_bar_user_image);
-        userName = (TextView) findViewById(R.id.custom_chat_bar_user_name);
-        userLastSeen = (TextView) findViewById(R.id.custom_chat_bar_user_last_seen);
-        sendMessageButton = (ImageButton) findViewById(R.id.chat_activity_send_message);
-        messageInputText = (EditText) findViewById(R.id.chat_activity_message);
+        userImage = findViewById(R.id.custom_chat_bar_user_image);
+        userName = findViewById(R.id.custom_chat_bar_user_name);
+        userLastSeen = findViewById(R.id.custom_chat_bar_user_last_seen);
+        sendMessageButton = findViewById(R.id.chat_activity_send_message);
+        messageInputText = findViewById(R.id.chat_activity_message);
 
-        messageAdapter = new MessageAdapter(messagesList, this);
-        userMessagesList = (RecyclerView) findViewById(R.id.private_messages_list_of_users);
+        messageAdapter = new MessageAdapter(messagesList);
+        userMessagesList = findViewById(R.id.private_messages_list_of_users);
         linearLayoutManager = new LinearLayoutManager(this);
         userMessagesList.setLayoutManager(linearLayoutManager);
         userMessagesList.setAdapter(messageAdapter);

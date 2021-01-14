@@ -1,6 +1,5 @@
 package com.example.nitdurgapur.nitdgpchat;
 
-import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.nitdurgapur.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -23,20 +21,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
 
     private final List<Messages> userMessagesList;
-    private final Context context;
     private FirebaseAuth auth;
     private DatabaseReference usersRef;
     private StorageReference storageReference;
 
-    public MessageAdapter(List<Messages> userMessagesList, Context context) {
+    public MessageAdapter(List<Messages> userMessagesList) {
         this.userMessagesList = userMessagesList;
-        this.context = context;
     }
 
     @NonNull
@@ -68,9 +65,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                         .addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                Glide.with(context)
-                                        .load(uri)
-                                        .into(holder.receiverProfileImage);
+                                Picasso.get().load(uri).into(holder.receiverProfileImage);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -79,7 +74,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                                 holder.receiverProfileImage.setImageResource(R.drawable.ic_user);
                             }
                         });
-
             }
 
             @Override
@@ -121,9 +115,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            senderMessageText = (TextView) itemView.findViewById(R.id.sender_message_text);
-            receiverMessageText = (TextView) itemView.findViewById(R.id.receiver_message_text);
-            receiverProfileImage = (ImageView) itemView.findViewById(R.id.custom_messages_layout_user_image);
+            senderMessageText = itemView.findViewById(R.id.sender_message_text);
+            receiverMessageText = itemView.findViewById(R.id.receiver_message_text);
+            receiverProfileImage = itemView.findViewById(R.id.custom_messages_layout_user_image);
         }
     }
 }

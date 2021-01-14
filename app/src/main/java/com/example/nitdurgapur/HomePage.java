@@ -32,7 +32,7 @@ import com.smarteist.autoimageslider.SliderView;
 
 import java.io.IOException;
 
-public class HomePage extends AppCompatActivity  {
+public class HomePage extends AppCompatActivity {
 
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
@@ -40,6 +40,16 @@ public class HomePage extends AppCompatActivity  {
     private DrawerLayout drawer;
     private TextView mNotSignIn;
     private SliderLayout sliderLayout;
+
+    private static void closeDrawer(DrawerLayout drawer) {
+        //Close drawer Layout
+        //Check condition
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            //When drawer is open
+            //Close drawer
+            drawer.closeDrawer(GravityCompat.START);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +60,7 @@ public class HomePage extends AppCompatActivity  {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         drawer = findViewById(R.id.drawer_layout);
 
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer);
@@ -61,12 +71,16 @@ public class HomePage extends AppCompatActivity  {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch(item.getItemId()) {
+                switch (item.getItemId()) {
                     case R.id.nav_home:
                         closeDrawer(drawer);
                         return true;
                     case R.id.nav_nitdgpchat:
-                        startActivity(new Intent(HomePage.this, NitDgpChat.class));
+                        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                            startActivity(new Intent(HomePage.this, NitDgpChat.class));
+                        } else {
+                            Toast.makeText(getApplicationContext(), "NITDGP Chat is not available for you.", Toast.LENGTH_SHORT).show();
+                        }
                         closeDrawer(drawer);
                         return true;
                     default:
@@ -80,7 +94,7 @@ public class HomePage extends AppCompatActivity  {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         View header = navigationView.getHeaderView(0);
-        mNotSignIn = (TextView) header.findViewById(R.id.not_sign_in);
+        mNotSignIn = header.findViewById(R.id.not_sign_in);
 
         if (currentUser == null) {
             mNotSignIn.setText("Not Logged In, Sign In?");
@@ -120,7 +134,7 @@ public class HomePage extends AppCompatActivity  {
         }
 
         //Set up Marquee TextView
-        TextView mMarquee = (TextView) findViewById(R.id.activity_home_marquee);
+        TextView mMarquee = findViewById(R.id.activity_home_marquee);
         mMarquee.setSelected(true);
         mMarquee.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +168,7 @@ public class HomePage extends AppCompatActivity  {
             }
         });
 
-        sliderLayout = (SliderLayout) findViewById(R.id.activity_home_carousel);
+        sliderLayout = findViewById(R.id.activity_home_carousel);
         sliderLayout.setIndicatorAnimation(IndicatorAnimations.FILL);
         sliderLayout.setScrollTimeInSec(3);
 
@@ -162,65 +176,84 @@ public class HomePage extends AppCompatActivity  {
     }
 
     private void setSliderViews() {
-        for (int i=0; i<=18; i++) {
+        for (int i = 0; i <= 18; i++) {
             DefaultSliderView sliderView = new DefaultSliderView(HomePage.this);
             String str = "deafault";
             switch (i) {
-                case 0 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/Covid_Awarness_-_Hoarding_-_English_-_With_PM2.jpg");
+                case 0:
+                    sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/Covid_Awarness_-_Hoarding_-_English_-_With_PM2.jpg");
                     str = "Covid Awarness - Hoarding";
                     break;
-                case 1 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/Covid_Awarness_-_Hoarding_-_English_-_With_PM1_page-0002.jpg");
+                case 1:
+                    sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/Covid_Awarness_-_Hoarding_-_English_-_With_PM1_page-0002.jpg");
                     str = "Covid Awarness - Hoarding";
                     break;
-                case 2 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/BRICS_International_School.JPG");
+                case 2:
+                    sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/BRICS_International_School.JPG");
                     str = "BRICS International School";
                     break;
-                case 3 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/74_independent_day.jpg");
+                case 3:
+                    sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/74_independent_day.jpg");
                     str = "74th Independence Day celebrated by the Institute";
                     break;
-                case 4 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/ban2.png");
+                case 4:
+                    sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/ban2.png");
                     str = "Engineering Tomorrow";
                     break;
-                case 5 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/ban1.png");
+                case 5:
+                    sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/ban1.png");
                     str = "Engineering Tomorrow";
                     break;
-                case 6 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/Semi-automatic_ventilator.png");
+                case 6:
+                    sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/Semi-automatic_ventilator.png");
                     str = "Semi-Automatic Ventilator";
                     break;
-                case 7 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2019/language_lab.jpg");
+                case 7:
+                    sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2019/language_lab.jpg");
                     str = "Inauguration of Language Laboratory at NIT Durgapur";
                     break;
-                case 8 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2019/Alumni_homecoming.jpg");
+                case 8:
+                    sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2019/Alumni_homecoming.jpg");
                     str = "Grand Alumni Homecoming 2018";
                     break;
-                case 9 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2019/fingureprint.jpg");
+                case 9:
+                    sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2019/fingureprint.jpg");
                     str = "Nanotechnology Enabled Smart Phone based Detection of Latent Finger Prints : Nature India";
                     break;
-                case 10 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2018/IMG-20181205-WA0113.jpg");
+                case 10:
+                    sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2018/IMG-20181205-WA0113.jpg");
                     str = "MOU with Hohai University China";
                     break;
-                case 11 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2019/DSC_4761-min.JPG");
+                case 11:
+                    sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2019/DSC_4761-min.JPG");
                     str = "15th Convocation 2019";
                     break;
-                case 12 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2018/18_-mod.JPG");
+                case 12:
+                    sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2018/18_-mod.JPG");
                     str = "Hindi Shikshan Yojna 2018";
                     break;
-                case 13 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2018/guestHouse.jpg");
+                case 13:
+                    sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2018/guestHouse.jpg");
                     str = "Guest House, NIT Durgapur";
                     break;
-                case 14 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2018/BiotechBuilding-mod.jpg");
+                case 14:
+                    sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2018/BiotechBuilding-mod.jpg");
                     str = "Biotechnology Department, NIT Durgapur";
                     break;
-                case 15 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2018/ACADPIC2-mod.JPG");
+                case 15:
+                    sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2018/ACADPIC2-mod.JPG");
                     str = "New Academic Building, NIT Durgapur";
                     break;
-                case 16 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/DSC_0182.JPG");
+                case 16:
+                    sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/DSC_0182.JPG");
                     str = "Ek Bharat Shreshtha Bharat";
                     break;
-                case 17 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2019/MissionVisionPagePic.jpg");
+                case 17:
+                    sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2019/MissionVisionPagePic.jpg");
                     str = "Main Academic Building, NIT Durgapur";
                     break;
-                case 18 : sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/rs.jpg");
+                case 18:
+                    sliderView.setImageUrl("https://admin.nitdgp.ac.in/files/carousel/2020/rs.jpg");
                     str = "STROKES NIT Durgapur";
                     break;
             }
@@ -236,21 +269,6 @@ public class HomePage extends AppCompatActivity  {
             });
 
             sliderLayout.addSliderView(sliderView);
-        }
-    }
-
-    private static void openDrawer(DrawerLayout drawer) {
-        //Open drawer Layout
-        drawer.openDrawer(GravityCompat.START);
-    }
-
-    private static void closeDrawer(DrawerLayout drawer) {
-        //Close drawer Layout
-        //Check condition
-        if(drawer.isDrawerOpen(GravityCompat.START)) {
-            //When drawer is open
-            //Close drawer
-            drawer.closeDrawer(GravityCompat.START);
         }
     }
 }

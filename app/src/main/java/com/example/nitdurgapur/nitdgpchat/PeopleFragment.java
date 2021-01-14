@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.nitdurgapur.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -27,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 public class PeopleFragment extends Fragment {
 
@@ -45,7 +45,7 @@ public class PeopleFragment extends Fragment {
         // Inflate the layout for this fragment
         peopleView = inflater.inflate(R.layout.fragment_people, container, false);
 
-        peopleList = (RecyclerView) peopleView.findViewById(R.id.people_recycler_view);
+        peopleList = peopleView.findViewById(R.id.people_recycler_view);
         peopleList.setLayoutManager(new LinearLayoutManager(getContext()));
 
         usersRef = FirebaseDatabase.getInstance().getReference().child("users");
@@ -89,9 +89,7 @@ public class PeopleFragment extends Fragment {
                                         .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                             @Override
                                             public void onSuccess(Uri uri) {
-                                                Glide.with(getActivity())
-                                                        .load(uri)
-                                                        .into(peopleViewHolder.profileImage);
+                                                Picasso.get().load(uri).into(peopleViewHolder.profileImage);
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -110,6 +108,18 @@ public class PeopleFragment extends Fragment {
                                         startActivity(chatIntent);
                                     }
                                 });
+
+                                if (snapshot.child("userState").hasChild("state")) {
+                                    String state = snapshot.child("userState").child("state").getValue().toString();
+
+                                    if (state.equals("online")) {
+                                        peopleViewHolder.onlineIcon.setVisibility(View.VISIBLE);
+                                    } else if (state.equals("offline")) {
+                                        peopleViewHolder.onlineIcon.setVisibility(View.INVISIBLE);
+                                    }
+                                } else {
+                                    peopleViewHolder.onlineIcon.setVisibility(View.INVISIBLE);
+                                }
                             }
 
                             @Override
@@ -126,7 +136,7 @@ public class PeopleFragment extends Fragment {
     public static class PeopleViewHolder extends RecyclerView.ViewHolder {
 
         TextView userName, userDept;
-        ImageView profileImage;
+        ImageView profileImage, onlineIcon;
 
         public PeopleViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -134,6 +144,7 @@ public class PeopleFragment extends Fragment {
             userName = itemView.findViewById(R.id.people_user_name);
             userDept = itemView.findViewById(R.id.people_user_department);
             profileImage = itemView.findViewById(R.id.people_user_image);
+            onlineIcon = itemView.findViewById(R.id.people_user_online_status);
         }
     }
 }

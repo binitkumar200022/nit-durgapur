@@ -48,9 +48,12 @@
     <string name="year">Year</string>
     <string name="description_profile_image">Profile Image</string>
     <string name="logout_button">Logout Button</string>
+    <string name="offline">offline</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="receiver_message">Receiver Message here</string>
     <string name="sender_message">Sender Message here</string>
+    <string name="last_seen_default">Last Seen</string>
+    <string name="name_default">Name</string>
 
 </resources>

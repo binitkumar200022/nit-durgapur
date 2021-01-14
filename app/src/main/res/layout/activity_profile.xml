@@ -59,7 +59,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/imgUser"
                     android:layout_centerInParent="true"
-                    android:layout_marginTop="13dp"
                     android:fontFamily="@font/calibri"
                     android:textColor="@color/colorAccent"
                     android:textSize="32sp" />

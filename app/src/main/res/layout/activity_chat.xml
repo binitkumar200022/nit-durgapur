@@ -57,9 +57,9 @@
                     android:id="@+id/custom_chat_bar_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="2dp"
                     android:fontFamily="@font/calibri"
-                    android:text="Name"
+                    android:text="@string/name_default"
                     android:textAlignment="textStart"
                     android:textColor="@color/colorAccent"
                     android:textSize="22sp"
@@ -72,10 +72,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/calibri"
-                    android:text="Last Seen"
+                    android:text="@string/last_seen_default"
                     android:textAlignment="textStart"
                     android:textColor="@color/colorAccent"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
