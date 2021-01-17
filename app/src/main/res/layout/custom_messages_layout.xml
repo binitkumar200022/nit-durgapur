@@ -42,21 +42,63 @@
         android:textSize="14sp"
         android:textStyle="bold" />
 
-    <ImageView
-        android:id="@+id/message_sender_image_view"
+    <RelativeLayout
+        android:id="@+id/message_sender_linear_layout"
         android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_margin="5dp"
-        android:scaleType="centerCrop" />
+        android:background="@drawable/sender_messages_layout"
+        android:padding="5dp">
 
-    <ImageView
-        android:id="@+id/message_receiver_image_view"
+        <ImageView
+            android:id="@+id/message_sender_image_view"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_margin="5dp"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/message_sender_text_view"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/message_sender_image_view"
+            android:fontFamily="@font/calibri"
+            android:padding="5dp"
+            android:text="@string/date_and_time"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/message_receiver_linear_layout"
         android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_margin="5dp"
+        android:layout_height="wrap_content"
         android:layout_toEndOf="@id/custom_messages_layout_rel_layout"
-        android:scaleType="centerCrop" />
+        android:background="@drawable/receiver_messages_layout"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/message_receiver_image_view"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/message_receiver_text_view"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/message_receiver_image_view"
+            android:fontFamily="@font/calibri"
+            android:padding="5dp"
+            android:text="@string/date_and_time"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/sender_message_text"

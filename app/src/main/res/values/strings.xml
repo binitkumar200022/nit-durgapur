@@ -55,5 +55,6 @@
     <string name="sender_message">Sender Message here</string>
     <string name="last_seen_default">Last Seen</string>
     <string name="name_default">Name</string>
+    <string name="date_and_time">Date and Time</string>
 
 </resources>
