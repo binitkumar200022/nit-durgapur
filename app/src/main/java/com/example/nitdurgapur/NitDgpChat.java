@@ -62,6 +62,13 @@ public class NitDgpChat extends AppCompatActivity {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+
+        updateUserStatus("offline");
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
 

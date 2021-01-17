@@ -19,6 +19,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -99,15 +100,17 @@ public class PeopleFragment extends Fragment {
                                             }
                                         });
 
-                                peopleViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Intent chatIntent = new Intent(getContext(), ChatActivity.class);
-                                        chatIntent.putExtra("visit_user_id", userIDs);
-                                        chatIntent.putExtra("visit_user_name", name);
-                                        startActivity(chatIntent);
-                                    }
-                                });
+                                if (!(userIDs).equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                    peopleViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent chatIntent = new Intent(getContext(), ChatActivity.class);
+                                            chatIntent.putExtra("visit_user_id", userIDs);
+                                            chatIntent.putExtra("visit_user_name", name);
+                                            startActivity(chatIntent);
+                                        }
+                                    });
+                                }
 
                                 if (snapshot.child("userState").hasChild("state")) {
                                     String state = snapshot.child("userState").child("state").getValue().toString();

@@ -114,10 +114,10 @@ public class GroupChatActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
 
-        sendMessageButton = (ImageView) findViewById(R.id.group_chat_send_message);
-        userMessageInput = (EditText) findViewById(R.id.input_group_message);
-        scrollView = (ScrollView) findViewById(R.id.group_chat_scroll_view);
-        displayTextMessage = (TextView) findViewById(R.id.group_chat_text_view);
+        sendMessageButton = findViewById(R.id.group_chat_send_message);
+        userMessageInput = findViewById(R.id.input_group_message);
+        scrollView = findViewById(R.id.group_chat_scroll_view);
+        displayTextMessage = findViewById(R.id.group_chat_text_view);
     }
 
     private void GetsUserInfo() {
@@ -142,7 +142,7 @@ public class GroupChatActivity extends AppCompatActivity {
             Toast.makeText(this, "Please write a message first!", Toast.LENGTH_SHORT).show();
         } else {
             Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat currentDateFormat = new SimpleDateFormat("MMM dd, yyyy");
+            SimpleDateFormat currentDateFormat = new SimpleDateFormat("dd MMM yyyy");
             currentDate = currentDateFormat.format(calendar.getTime());
 
             SimpleDateFormat currentTimeFormat = new SimpleDateFormat("hh:mm a");

@@ -1,5 +1,8 @@
 package com.example.nitdurgapur.nitdgpchat;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +51,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MessageViewHolder holder, final int position) {
         String messageSenderID = auth.getCurrentUser().getUid();
         Messages messages = userMessagesList.get(position);
 
@@ -82,22 +85,171 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             }
         });
 
-        if (fromMessageType.equals("text")) {
-            holder.receiverMessageText.setVisibility(View.INVISIBLE);
-            holder.receiverProfileImage.setVisibility(View.INVISIBLE);
-            holder.senderMessageText.setVisibility(View.INVISIBLE);
+        holder.receiverMessageText.setVisibility(View.GONE);
+        holder.receiverProfileImage.setVisibility(View.GONE);
+        holder.senderMessageText.setVisibility(View.GONE);
+        holder.messageSenderPicture.setVisibility(View.GONE);
+        holder.messageReceiverPicture.setVisibility(View.GONE);
 
+        if (fromMessageType.equals("text")) {
             if (fromUserID.equals(messageSenderID)) {
                 holder.senderMessageText.setVisibility(View.VISIBLE);
 
                 holder.senderMessageText.setBackgroundResource(R.drawable.sender_messages_layout);
-                holder.senderMessageText.setText(messages.getMessage());
+                holder.senderMessageText.setText(messages.getMessage() + "\n\n" + messages.getTime() + " - " + messages.getDate());
             } else {
                 holder.receiverMessageText.setVisibility(View.VISIBLE);
                 holder.receiverProfileImage.setVisibility(View.VISIBLE);
 
                 holder.receiverProfileImage.setBackgroundResource(R.drawable.receiver_messages_layout);
-                holder.receiverMessageText.setText(messages.getMessage());
+                holder.receiverMessageText.setText(messages.getMessage() + "\n\n" + messages.getTime() + " - " + messages.getDate());
+            }
+        } else if (fromMessageType.equals("image")) {
+            if (fromUserID.equals(messageSenderID)) {
+                holder.messageSenderPicture.setVisibility(View.VISIBLE);
+
+                Picasso.get().load(messages.getMessage()).into(holder.messageSenderPicture);
+            } else {
+                holder.receiverProfileImage.setVisibility(View.VISIBLE);
+                holder.messageReceiverPicture.setVisibility(View.VISIBLE);
+
+                Picasso.get().load(messages.getMessage()).into(holder.messageReceiverPicture);
+            }
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.parse(userMessagesList.get(position).getMessage()), "image/*");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                    PackageManager manager = holder.itemView.getContext().getPackageManager();
+                    List<ResolveInfo> list = manager.queryIntentActivities(intent, 0);
+                    if (list != null && list.size() > 0) {
+                        holder.itemView.getContext().startActivity(intent);
+                    } else {
+                        Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse(userMessagesList.get(position).getMessage()));
+                        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        holder.itemView.getContext().startActivity(intent1);
+                    }
+                }
+            });
+        } else {
+            String fromMessageExtension = messages.getExtension();
+            if (fromMessageType.equals("audio")) {
+                if (fromUserID.equals(messageSenderID)) {
+                    holder.messageSenderPicture.setVisibility(View.VISIBLE);
+
+                    holder.messageSenderPicture.setBackgroundResource(R.drawable.audio);
+                } else {
+                    holder.receiverProfileImage.setVisibility(View.VISIBLE);
+                    holder.messageReceiverPicture.setVisibility(View.VISIBLE);
+
+                    holder.messageReceiverPicture.setBackgroundResource(R.drawable.audio);
+                }
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setAction(Intent.ACTION_VIEW);
+                        intent.setDataAndType(Uri.parse(userMessagesList.get(position).getMessage()), "audio/*");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        PackageManager manager = holder.itemView.getContext().getPackageManager();
+                        List<ResolveInfo> list = manager.queryIntentActivities(intent, 0);
+                        if (list != null && list.size() > 0) {
+                            holder.itemView.getContext().startActivity(intent);
+                        } else {
+                            Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse(userMessagesList.get(position).getMessage()));
+                            intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            holder.itemView.getContext().startActivity(intent1);
+                        }
+                    }
+                });
+            } else if (fromMessageExtension.equals("pdf")) {
+                if (fromUserID.equals(messageSenderID)) {
+                    holder.messageSenderPicture.setVisibility(View.VISIBLE);
+
+                    holder.messageSenderPicture.setBackgroundResource(R.drawable.pdf);
+                } else {
+                    holder.receiverProfileImage.setVisibility(View.VISIBLE);
+                    holder.messageReceiverPicture.setVisibility(View.VISIBLE);
+
+                    holder.messageReceiverPicture.setBackgroundResource(R.drawable.pdf);
+                }
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setAction(Intent.ACTION_VIEW);
+                        intent.setDataAndType(Uri.parse(userMessagesList.get(position).getMessage()), "application/pdf");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        PackageManager manager = holder.itemView.getContext().getPackageManager();
+                        List<ResolveInfo> list = manager.queryIntentActivities(intent, 0);
+                        if (list != null && list.size() > 0) {
+                            holder.itemView.getContext().startActivity(intent);
+                        } else {
+                            Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse(userMessagesList.get(position).getMessage()));
+                            intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            holder.itemView.getContext().startActivity(intent1);
+                        }
+                    }
+                });
+            } else if (fromMessageExtension.equals("doc") || fromMessageExtension.equals("docx") || fromMessageExtension.equals("odt")) {
+                if (fromUserID.equals(messageSenderID)) {
+                    holder.messageSenderPicture.setVisibility(View.VISIBLE);
+
+                    holder.messageSenderPicture.setBackgroundResource(R.drawable.word);
+                } else {
+                    holder.receiverProfileImage.setVisibility(View.VISIBLE);
+                    holder.messageReceiverPicture.setVisibility(View.VISIBLE);
+
+                    holder.messageReceiverPicture.setBackgroundResource(R.drawable.word);
+                }
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setAction(Intent.ACTION_VIEW);
+                        intent.setDataAndType(Uri.parse(userMessagesList.get(position).getMessage()), "application/msword");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        PackageManager manager = holder.itemView.getContext().getPackageManager();
+                        List<ResolveInfo> list = manager.queryIntentActivities(intent, 0);
+                        if (list != null && list.size() > 0) {
+                            holder.itemView.getContext().startActivity(intent);
+                        } else {
+                            Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse(userMessagesList.get(position).getMessage()));
+                            intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            holder.itemView.getContext().startActivity(intent1);
+                        }
+                    }
+                });
+            } else {
+                if (fromUserID.equals(messageSenderID)) {
+                    holder.messageSenderPicture.setVisibility(View.VISIBLE);
+
+                    holder.messageSenderPicture.setBackgroundResource(R.drawable.file);
+                } else {
+                    holder.receiverProfileImage.setVisibility(View.VISIBLE);
+                    holder.messageReceiverPicture.setVisibility(View.VISIBLE);
+
+                    holder.messageReceiverPicture.setBackgroundResource(R.drawable.file);
+                }
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(userMessagesList.get(position).getMessage()));
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        holder.itemView.getContext().startActivity(intent);
+                    }
+                });
             }
         }
     }
@@ -109,7 +261,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
         public TextView senderMessageText, receiverMessageText;
-        public ImageView receiverProfileImage;
+        public ImageView receiverProfileImage, messageSenderPicture, messageReceiverPicture;
 
 
         public MessageViewHolder(@NonNull View itemView) {
@@ -118,6 +270,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             senderMessageText = itemView.findViewById(R.id.sender_message_text);
             receiverMessageText = itemView.findViewById(R.id.receiver_message_text);
             receiverProfileImage = itemView.findViewById(R.id.custom_messages_layout_user_image);
+            messageSenderPicture = itemView.findViewById(R.id.message_sender_image_view);
+            messageReceiverPicture = itemView.findViewById(R.id.message_receiver_image_view);
         }
     }
 }

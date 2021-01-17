@@ -1,16 +1,15 @@
 package com.example.nitdurgapur.nitdgpchat;
 
 public class People {
-    public String name, department, image;
+    public String name, department;
 
     public People() {
 
     }
 
-    public People(String name, String department, String image) {
+    public People(String name, String department) {
         this.name = name;
         this.department = department;
-        this.image = image;
     }
 
     public String getName() {
@@ -29,11 +28,4 @@ public class People {
         this.department = department;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 }
