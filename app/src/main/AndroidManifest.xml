@@ -32,10 +32,6 @@
             android:parentActivityName=".HomePage"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".PdfRender"
-            android:label="@string/title_activity_pdf_render"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".HomePage"
             android:label="@string/menu_home"
             android:screenOrientation="portrait"
